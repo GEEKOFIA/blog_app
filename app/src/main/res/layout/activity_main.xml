@@ -1,67 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity"
+    tools:openDrawer="start">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/id_Toolbar"
+    <include
+        layout="@layout/app_bar_main"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:menu="@menu/toolbar_items"/>
+        android:layout_height="match_parent" />
 
-    <!-- Empty view is only visible when the list has no items. -->
-    <TextView
-        android:id="@+id/id_EmptyView"
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textAppearance="?android:textAppearanceMedium"/>
-
-    <ProgressBar
-        android:id="@+id/id_LoadingIndicator"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"/>
-
-    <Button
-        android:id="@+id/id_RetryButton"
-        android:layout_below="@+id/id_EmptyView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="16dp"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textAllCaps="true"
-        android:text="@string/retryButtonText"
-        android:textColor="@android:color/white"
-        android:background="@color/colorPrimary"
-        android:visibility="gone"/>
-
-    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/id_LatestPostsList"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/id_Toolbar"
-        android:orientation="vertical" />
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer" />
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/id_BottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/navigation" />
-
-</RelativeLayout>
+</android.support.v4.widget.DrawerLayout>

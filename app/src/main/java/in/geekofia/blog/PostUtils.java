@@ -39,6 +39,8 @@ public final class PostUtils {
                 String desc = CurrentPost.getString("desc");
                 String date = CurrentPost.getString("date");
                 String url = CurrentPost.getString("url");
+                String author = CurrentPost.getString("author");
+                String thumbnail = CurrentPost.getString("thumbnail");
                 String categoryArray = CurrentPost.getString("category");
                 String tagsArray = CurrentPost.getString("tags");
 
@@ -52,7 +54,7 @@ public final class PostUtils {
 //                    tags.add(tagsArray.getString(c));
 //                }
 
-                Post newPost = new Post(title, date, desc, url, null, null);
+                Post newPost = new Post(title, date, desc, author, thumbnail, url,null, null);
                 latestPosts.add(newPost);
             }
 

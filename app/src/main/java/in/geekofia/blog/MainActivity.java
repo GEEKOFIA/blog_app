@@ -1,17 +1,23 @@
 package in.geekofia.blog;
 
-
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -29,37 +35,22 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private Toolbar mTopToolbar;
+    private DrawerLayout mDrawer;
     private PostAdapter mAdapter;
     private ListView mLatestPostsListView;
     private Button mRetryButton;
     private ProgressBar mLoadingIndicator;
-    private TextView mEmptyStateTextView;
+    private TextView mEmptyStateTextView, mDrawerAppVersion;
 
     private static final String GEEKOFIA_BLOG_ENDPOINT = "https://blog.geekofia.in/api/v1";
     private static final String LOG_TAG = MainActivity.class.getName();
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    int versionCode = BuildConfig.VERSION_CODE;
+    String versionName = BuildConfig.VERSION_NAME;
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTopToolbar.setTitle(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-                    mTopToolbar.setTitle(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-                    mTopToolbar.setTitle(R.string.title_notifications);
-                    return true;
-            }
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,16 +65,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        // Bottom Navigation Bar
-        BottomNavigationView navigation = findViewById(R.id.id_BottomNavigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        // Toolbar
-        mTopToolbar = findViewById(R.id.id_Toolbar);
+        mTopToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mTopToolbar);
+
+        mDrawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawer, mTopToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+
+        TextView appVersion = hView.findViewById(R.id.drawer_app_version);
+        appVersion.setText("Version : " + versionName);
+
+        TextView appDev = hView.findViewById(R.id.drawer_app_dev);
+        appDev.setText("Developer : chankruze");
 
         // Latest Posts List
         mLatestPostsListView = findViewById(R.id.id_LatestPostsList);
+
+        mLatestPostsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // Find the current earthquake that was clicked on
+                Post currentPost = mAdapter.getItem(position);
+
+                // Convert the String URL into a URI object (to pass into the Intent constructor)
+                Uri postUri = Uri.parse(currentPost.getmPostUrl());
+
+                // Create a new intent to view the earthquake URI
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, postUri);
+
+                // Send the intent to launch a new activity
+                startActivity(websiteIntent);
+            }
+        });
 
         // Loading Indicator
         mLoadingIndicator = findViewById(R.id.id_LoadingIndicator);
@@ -106,7 +125,16 @@ public class MainActivity extends AppCompatActivity {
                 }, 1000);
             }
         });
+    }
 
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void startLoader() {
@@ -115,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             syncLatestPosts();
         } else {
             mLoadingIndicator.setVisibility(View.GONE);
+            mEmptyStateTextView.setVisibility(View.VISIBLE);
             mEmptyStateTextView.setText(R.string.no_internet_connection);
             mRetryButton.setVisibility(View.VISIBLE);
         }
@@ -145,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
                             ArrayList<Post> posts = PostUtils.extractPosts(myResponse);
                             mAdapter = new PostAdapter(MainActivity.this, posts);
                             mLoadingIndicator.setVisibility(View.GONE);
+                            mEmptyStateTextView.setVisibility(View.GONE);
                             mLatestPostsListView.setAdapter(mAdapter);
                         }
                     });
@@ -174,12 +204,62 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_favorite) {
-            Toast.makeText(MainActivity.this, "Thanks for your $100 donation !", Toast.LENGTH_LONG).show();
-            return true;
-        }
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id) {
+//            Toast.makeText(MainActivity.this, "Thanks for your $100 donation !", Toast.LENGTH_LONG).show();
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        // int id = item.getItemId();
+
+        switch (item.getItemId()) {
+            case R.id.nav_LatestPosts:
+                mTopToolbar.setTitle(R.string.title_latest_posts);
+                return true;
+            case R.id.nav_Categories:
+                mTopToolbar.setTitle(R.string.title_categories);
+                return true;
+            case R.id.nav_Tags:
+                mTopToolbar.setTitle(R.string.title_tags);
+                return true;
+            case R.id.nav_Share:
+                return true;
+            case R.id.nav_Contact:
+                return true;
+            case R.id.nav_Author:
+                return true;
+            case R.id.nav_Sponsor:
+                return true;
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        if (!isConnected()){
+            try{
+                mAdapter.clear();
+            }catch (Exception e){
+                Toast.makeText(MainActivity.this, "Error Refreshing Posts!", Toast.LENGTH_SHORT).show();
+            }
+            startLoader();
+        } else{
+            mRetryButton.setVisibility(View.GONE);
+            mEmptyStateTextView.setText("Refreshing Posts ...");
+            syncLatestPosts();
+        }
+
     }
 }

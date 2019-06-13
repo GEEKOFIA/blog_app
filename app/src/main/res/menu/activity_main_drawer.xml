@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_LatestPosts"
+            android:icon="@drawable/ic_home"
+            android:title="All Latest Posts" />
+        <item
+            android:id="@+id/nav_Categories"
+            android:icon="@drawable/ic_category"
+            android:title="Group By Categories" />
+        <item
+            android:id="@+id/nav_Tags"
+            android:icon="@drawable/ic_hash_tags"
+            android:title="Group By Tags" />
+    </group>
+
+    <item
+        android:checkable="false"
+        android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_Share"
+                android:icon="@drawable/ic_share"
+                android:title="Share App" />
+
+            <item
+                android:id="@+id/nav_Contact"
+                android:icon="@drawable/ic_email_outline"
+                android:title="Contact Me" />
+
+            <item
+                android:id="@+id/nav_Author"
+                android:icon="@drawable/ic_author"
+                android:title="Become An Author" />
+        </menu>
+    </item>
+
+    <item android:title="Sponsor">
+        <menu>
+            <item
+                android:id="@+id/nav_Sponsor"
+                android:icon="@drawable/ic_sponsor"
+                android:title="Buy Me A Beer" />
+        </menu>
+    </item>
+
+</menu>
