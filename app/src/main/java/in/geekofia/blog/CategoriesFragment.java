@@ -9,15 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class CategoriesFragment extends Fragment {
-    View view;
-
-    public CategoriesFragment() {
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_categories, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_categories, container, false);
     }
 }

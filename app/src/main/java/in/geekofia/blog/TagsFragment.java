@@ -9,16 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class TagsFragment extends Fragment {
-
-    View view;
-
-    public TagsFragment() {
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_tags, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_tags, container, false);
     }
 }
