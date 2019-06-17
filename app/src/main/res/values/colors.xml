@@ -2,8 +2,8 @@
 <resources>
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#00897B</color>
-    <color name="colorFragmentBackground">#2b2b2b</color>
+    <color name="colorAccent">#D81B60</color>
 
+    <color name="colorFragmentBackground">#2b2b2b</color>
     <color name="colorPostBackground">#FFFFFF</color>
 </resources>

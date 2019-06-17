@@ -1,64 +1,117 @@
 package in.geekofia.blog;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class PostAdapter extends ArrayAdapter<Post> {
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-    private TextView mPostTitleField, mPostDateField, mPostDescriptionField, mAuthorField;
-    private ImageView mThumbnailView;
-    private String mPostUrl;
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+    private ArrayList<Post> mPostList;
     private static final String PROTO_ONE = "https://", PROTO_TWO = "http://", DOMAIN_URL = "https://blog.geekofia.in";
 
-    public PostAdapter(Activity context, ArrayList<Post> posts) {
-        super(context, 0, posts);
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+
+        void onShareClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public static class PostViewHolder extends RecyclerView.ViewHolder {
+
+        public ImageView mImageView;
+        public TextView mTextViewTitle, mTextViewDescription, mTextViewAuthor, mTextViewDate, mTextViewDuration, mTextViewShare;
+
+        public PostViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+            super(itemView);
+            mImageView = itemView.findViewById(R.id.post_thumbnail);
+            mTextViewTitle = itemView.findViewById(R.id.post_title);
+            mTextViewDescription = itemView.findViewById(R.id.post_description);
+            mTextViewAuthor = itemView.findViewById(R.id.post_author);
+            mTextViewDate = itemView.findViewById(R.id.post_date);
+            mTextViewDuration = itemView.findViewById(R.id.post_duration);
+            mTextViewShare = itemView.findViewById(R.id.post_share);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            mTextViewShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onShareClick(position);
+                        }
+                    }
+                }
+            });
+
+        }
+    }
+
+    public PostAdapter(Context mContext, ArrayList<Post> mPostList) {
+        Context mContext1 = mContext;
+        this.mPostList = mPostList;
+    }
+
+    @NonNull
+    @Override
+    public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item, parent, false);
+        return new PostViewHolder(v, mListener);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // Check if the existing view is being reused, otherwise inflate the view
-        View listItemView = convertView;
-        if(listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.list_item, parent, false);
-        }
+    public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
+        Post currentItem = mPostList.get(position);
 
-        // Get the {@link Word} object located at this position in the list
-        Post currentPost = getItem(position);
+        String title = currentItem.getmPostTitle();
+        String desc = currentItem.getmPostDescription();
+        String author = currentItem.getmAuthor();
+        String date = currentItem.getmPostDate();
+        String duration = currentItem.getmPostDuration();
+        String thumbnailUrl = currentItem.getmThumbnailUrl();
 
-        mPostTitleField = listItemView.findViewById(R.id.post_title);
-        String title = Objects.requireNonNull(currentPost).getmPostTitle();
-        mPostTitleField.setText(title);
+        holder.mTextViewTitle.setText(title);
+        holder.mTextViewDescription.setText(desc);
+        holder.mTextViewAuthor.setText(author);
+        holder.mTextViewDate.setText(date);
+        holder.mTextViewDuration.setText(duration);
 
-        mPostDescriptionField = listItemView.findViewById(R.id.post_description);
-        mPostDescriptionField.setText(currentPost.getmPostDescription());
-
-        mAuthorField = listItemView.findViewById(R.id.post_author);
-        mAuthorField.setText(currentPost.getmAuthor());
-
-        mPostDateField = listItemView.findViewById(R.id.post_date);
-        mPostDateField.setText(currentPost.getmPostDate());
-
-        mThumbnailView = listItemView.findViewById(R.id.post_thumbnail);
-        mPostUrl = currentPost.getmThumbnailUrl();
-
-        if (mPostUrl.toLowerCase().contains(PROTO_ONE) || mPostUrl.toLowerCase().contains(PROTO_TWO)){
-            Picasso.get().load(mPostUrl).into(mThumbnailView);
+        if (thumbnailUrl.toLowerCase().contains(PROTO_ONE) || thumbnailUrl.toLowerCase().contains(PROTO_TWO)){
+            Picasso.get().load(thumbnailUrl).into(holder.mImageView);
         } else{
-            mPostUrl = DOMAIN_URL + mPostUrl;
-            Picasso.get().load(mPostUrl).into(mThumbnailView);
+            thumbnailUrl = DOMAIN_URL + thumbnailUrl;
+            Picasso.get().load(thumbnailUrl).into(holder.mImageView);
         }
-
-        return listItemView;
     }
+
+    @Override
+    public int getItemCount() {
+        return mPostList.size();
+    }
+
 }

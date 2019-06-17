@@ -1,20 +1,16 @@
 package in.geekofia.blog;
 
-import java.util.List;
-
 public class Post {
-    private String mPostTitle, mPostDate, mPostDescription, mAuthor, mThumbnailUrl, mPostUrl;
-    private List<String> mCategories, mTags;
+    private String mPostTitle, mPostDate, mPostDescription, mAuthor, mPostDuration, mThumbnailUrl, mPostUrl;
 
-    public Post(String mPostTitle, String mPostDate, String mPostDescription, String mAuthor,String mThumbnailUrl, String mPostUrl, List<String> mCategories, List<String> mTags) {
+    public Post(String mPostTitle, String mPostDescription, String mAuthor, String mPostDate, String mPostDuration, String mThumbnailUrl, String mPostUrl) {
         this.mPostTitle = mPostTitle;
-        this.mPostDate = mPostDate;
         this.mPostDescription = mPostDescription;
         this.mAuthor = mAuthor;
+        this.mPostDate = mPostDate;
+        this.mPostDuration = mPostDuration;
         this.mThumbnailUrl = mThumbnailUrl;
         this.mPostUrl = mPostUrl;
-        this.mCategories = mCategories;
-        this.mTags = mTags;
     }
 
     public String getmPostTitle() {
@@ -29,8 +25,12 @@ public class Post {
         return mPostDescription;
     }
 
-    public String getmAuthor(){
+    public String getmAuthor() {
         return mAuthor;
+    }
+
+    public String getmPostDuration() {
+        return mPostDuration;
     }
 
     public String getmThumbnailUrl() {
@@ -39,13 +39,5 @@ public class Post {
 
     public String getmPostUrl() {
         return mPostUrl;
-    }
-
-    public List<String> getmCategories() {
-        return mCategories;
-    }
-
-    public List<String> getmTags() {
-        return mTags;
     }
 }
