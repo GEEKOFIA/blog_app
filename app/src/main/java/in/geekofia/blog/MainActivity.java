@@ -1,22 +1,33 @@
 package in.geekofia.blog;
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     String versionName = BuildConfig.VERSION_NAME;
+    private ListView mLatestPostsListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +60,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PostsFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_posts);
         }
+
+        // Latest Posts List
+        mLatestPostsListView = findViewById(R.id.recycler_view);
+
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-        switch (menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.nav_posts:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PostsFragment()).commit();
                 break;
@@ -64,16 +80,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TagsFragment()).commit();
                 break;
             case R.id.nav_share:
-                Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
+                try {
+                    startActivity(new Intent(Intent.ACTION_SEND,
+                            Uri.parse("market://details?id=" + getPackageName())));
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                }
                 break;
             case R.id.nav_contact:
                 Toast.makeText(this, "Contact", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_author:
-                Toast.makeText(this, "Author", Toast.LENGTH_SHORT).show();
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://github.com/GEEKOFIA/blog/blob/master/.github/CONTRIBUTING.md")));
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.nav_github:
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://github.com/GEEKOFIA/blog/")));
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.nav_donate:
-                Toast.makeText(this, "Donate", Toast.LENGTH_SHORT).show();
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://p-y.tm/Bkbz-ER")));
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.nav_rate:
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=" + getPackageName())));
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                }
                 break;
         }
 
@@ -83,9 +132,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else{
+        } else {
             super.onBackPressed();
         }
     }
