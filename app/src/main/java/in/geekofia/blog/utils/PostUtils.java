@@ -1,4 +1,4 @@
-package in.geekofia.blog;
+package in.geekofia.blog.utils;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -8,6 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import in.geekofia.blog.Post;
 
 public final class PostUtils {
 
@@ -40,9 +42,10 @@ public final class PostUtils {
                 String date = CurrentPost.getString("date");
                 String url = CurrentPost.getString("url");
                 String author = CurrentPost.getString("author");
+                String duration = CurrentPost.getString("duration");
                 String thumbnail = CurrentPost.getString("thumbnail");
 
-                Post newPost = new Post(title, desc, author, date, thumbnail, url);
+                Post newPost = new Post(title, desc, author, date, duration, thumbnail, url);
                 latestPosts.add(newPost);
             }
 

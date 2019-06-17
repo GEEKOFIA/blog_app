@@ -79,7 +79,25 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textSize="12sp"
-            tools:text="2 min" />
+            tools:text="2 min"
+            tools:targetApi="m" />
+
+        <TextView
+            android:id="@+id/post_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/post_author"
+            android:layout_toEndOf="@id/post_duration"
+            android:drawableLeft="@drawable/ic_navigation_2_outline"
+            android:drawablePadding="4dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:drawableTint="#787878"
+            android:paddingLeft="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="12sp"
+            tools:targetApi="m" />
 
         <ImageView
             android:id="@+id/post_thumbnail"
@@ -89,7 +107,7 @@
             android:layout_centerVertical="true"
             android:paddingLeft="8dp"
             android:scaleType="fitCenter"
-            android:src="@mipmap/ic_launcher" />
+            card_view:srcCompat="@mipmap/ic_launcher" />
 
     </RelativeLayout>
 

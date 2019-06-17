@@ -19,15 +19,12 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-    String versionName = BuildConfig.VERSION_NAME;
-    private ListView mLatestPostsListView;
+    private String versionName = BuildConfig.VERSION_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +57,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PostsFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_posts);
         }
-
-        // Latest Posts List
-        mLatestPostsListView = findViewById(R.id.recycler_view);
-
     }
 
     @Override
@@ -80,13 +73,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TagsFragment()).commit();
                 break;
             case R.id.nav_share:
-                try {
-                    startActivity(new Intent(Intent.ACTION_SEND,
-                            Uri.parse("market://details?id=" + getPackageName())));
-                } catch (ActivityNotFoundException e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
-                }
                 break;
             case R.id.nav_contact:
                 Toast.makeText(this, "Contact", Toast.LENGTH_SHORT).show();

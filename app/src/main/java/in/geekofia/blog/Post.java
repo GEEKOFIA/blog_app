@@ -1,13 +1,14 @@
 package in.geekofia.blog;
 
 public class Post {
-    private String mPostTitle, mPostDate, mPostDescription, mAuthor, mThumbnailUrl, mPostUrl;
+    private String mPostTitle, mPostDate, mPostDescription, mAuthor, mPostDuration, mThumbnailUrl, mPostUrl;
 
-    public Post(String mPostTitle, String mPostDescription, String mAuthor, String mPostDate, String mThumbnailUrl, String mPostUrl) {
+    public Post(String mPostTitle, String mPostDescription, String mAuthor, String mPostDate, String mPostDuration, String mThumbnailUrl, String mPostUrl) {
         this.mPostTitle = mPostTitle;
         this.mPostDescription = mPostDescription;
         this.mAuthor = mAuthor;
         this.mPostDate = mPostDate;
+        this.mPostDuration = mPostDuration;
         this.mThumbnailUrl = mThumbnailUrl;
         this.mPostUrl = mPostUrl;
     }
@@ -24,8 +25,12 @@ public class Post {
         return mPostDescription;
     }
 
-    public String getmAuthor(){
+    public String getmAuthor() {
         return mAuthor;
+    }
+
+    public String getmPostDuration() {
+        return mPostDuration;
     }
 
     public String getmThumbnailUrl() {
