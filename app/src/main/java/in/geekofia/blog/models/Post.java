@@ -1,4 +1,4 @@
-package in.geekofia.blog;
+package in.geekofia.blog.models;
 
 public class Post {
     private String mPostTitle, mPostDate, mPostDescription, mAuthor, mPostDuration, mThumbnailUrl, mPostUrl;

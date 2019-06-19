@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="contact_support_array">
+        <item>contact@geekofia.in</item>
+        <item>chankruze@geekofia.in</item>
+    </string-array>
+</resources>

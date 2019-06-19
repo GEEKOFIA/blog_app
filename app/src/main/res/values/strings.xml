@@ -3,6 +3,10 @@
 
     <!-- Toolbar -->
     <string name="title_menu_search">Search Posts</string>
+    <string name="title_fragment_contact">Support</string>
+    <string name="title_fragment_categories">Categories</string>
+    <string name="title_fragment_tags">Tags</string>
+    <string name="title_fragment_Posts">The Latest</string>
 
     <!-- Nav Drawer -->
     <string name="title_nav_header">@string/app_name</string>
@@ -23,4 +27,13 @@
 
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
+
+    <string name="contact_to">Writing To&#160;</string>
+    <string name="send_button">Send Email</string>
+
+    <string name="contact_header">We Love To Hear From You</string>
+    <string name="hint_subject">Subject</string>
+    <string name="helper_subject">Tell us why you writing</string>
+    <string name="hint_body">Message</string>
+    <string name="helper_body">Describe your issue or suggestion in details</string>
 </resources>

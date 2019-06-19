@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import in.geekofia.blog.Post;
+import in.geekofia.blog.models.Post;
 
 public final class PostUtils {
 

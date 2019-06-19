@@ -1,4 +1,4 @@
-package in.geekofia.blog;
+package in.geekofia.blog.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +13,9 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import in.geekofia.blog.models.Post;
+import in.geekofia.blog.R;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
     private ArrayList<Post> mPostList;
