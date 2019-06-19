@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/recycler_view_categories"
+    android:id="@+id/recycler_view_authors"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray"
-    tools:listitem="@layout/grid_item"
-    android:clipToPadding="false"
-    android:padding="@dimen/item_offset" />
+    tools:listitem="@layout/post_item" />

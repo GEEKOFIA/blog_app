@@ -16,6 +16,9 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 
+// Fragments
+import in.geekofia.blog.fragments.*;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_share:
                 break;
             case R.id.nav_contact:
-                Toast.makeText(this, "Contact", Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ContactFragment()).commit();
                 break;
             case R.id.nav_author:
                 try {

@@ -5,9 +5,9 @@ android {
     defaultConfig {
         applicationId "in.geekofia.blog"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
-        versionName "1.0-alpha"
+        versionName "1.0-alpha-02"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
