@@ -16,6 +16,7 @@ import in.geekofia.blog.R;
 import in.geekofia.blog.models.Tag;
 
 public class TagAdapter extends RecyclerView.Adapter<TagAdapter.TagViewHolder> {
+    private Context mContext;
     private ArrayList<Tag> mTagList;
     private static final String PROTO_ONE = "https://", PROTO_TWO = "http://", DOMAIN_URL = "https://blog.geekofia.in";
 
@@ -53,7 +54,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.TagViewHolder> {
     }
 
     public TagAdapter(Context mContext, ArrayList<Tag> mTagList) {
-        Context mContext1 = mContext;
+        this.mContext = mContext;
         this.mTagList = mTagList;
     }
 
