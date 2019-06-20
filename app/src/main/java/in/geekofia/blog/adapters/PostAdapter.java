@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,8 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import in.geekofia.blog.models.Post;
 import in.geekofia.blog.R;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> implements Filterable {
+    private Context mContext;
     private ArrayList<Post> mPostList;
+    private ArrayList<Post> mPostListFull;
+
     private static final String PROTO_ONE = "https://", PROTO_TWO = "http://", DOMAIN_URL = "https://blog.geekofia.in";
 
     private OnItemClickListener mListener;
@@ -76,8 +81,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     public PostAdapter(Context mContext, ArrayList<Post> mPostList) {
-        Context mContext1 = mContext;
+        this.mContext = mContext;
         this.mPostList = mPostList;
+        mPostListFull = new ArrayList<>(mPostList);
     }
 
     @NonNull
@@ -117,4 +123,38 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return mPostList.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return mFilter;
+    }
+
+    private Filter mFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<Post> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(mPostListFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Post item : mPostListFull) {
+                    if (item.getmPostTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mPostList.clear();
+            mPostList.addAll((ArrayList) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }

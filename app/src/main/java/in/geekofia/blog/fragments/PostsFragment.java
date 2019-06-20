@@ -23,6 +23,9 @@ import okhttp3.Response;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,6 +35,7 @@ import java.util.ArrayList;
 public class PostsFragment extends Fragment {
 
     private PostAdapter mAdapter;
+    private ArrayList<Post> mPostList, mPostListFull;
     private static final String API_ENDPOINT_POSTS = "https://blog.geekofia.in/api/v2/posts/";
     private RecyclerView mRecyclerView;
 
@@ -65,12 +69,14 @@ public class PostsFragment extends Fragment {
                 if (response.isSuccessful()) {
                     final String myResponse;
                     myResponse = response.body().string();
-                    final ArrayList<Post> posts = PostUtils.extractPosts(myResponse);
-                    mAdapter = new PostAdapter(getActivity(), posts);
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            final ArrayList<Post> posts = PostUtils.extractPosts(myResponse);
+                            mPostList = posts;
+                            mPostListFull = new ArrayList<>(mPostList);
+                            mAdapter = new PostAdapter(getActivity(), posts);
                             mRecyclerView.setAdapter(mAdapter);
 
                             mAdapter.setOnItemClickListener(new PostAdapter.OnItemClickListener() {
@@ -103,4 +109,7 @@ public class PostsFragment extends Fragment {
         });
     }
 
+    public void search(String querryText) {
+        mAdapter.getFilter().filter(querryText);
+    }
 }

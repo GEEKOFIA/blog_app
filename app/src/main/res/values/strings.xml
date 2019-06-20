@@ -36,4 +36,6 @@
     <string name="helper_subject">Tell us why you writing</string>
     <string name="hint_body">Message</string>
     <string name="helper_body">Describe your issue or suggestion in details</string>
+
+    <string name="search_hint">Searh posts ...</string>
 </resources>

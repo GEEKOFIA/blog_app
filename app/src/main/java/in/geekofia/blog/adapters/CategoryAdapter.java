@@ -16,6 +16,7 @@ import in.geekofia.blog.R;
 import in.geekofia.blog.models.Category;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+    private Context mContext;
     private ArrayList<Category> mCategoryList;
     private static final String PROTO_ONE = "https://", PROTO_TWO = "http://", DOMAIN_URL = "https://blog.geekofia.in";
 
@@ -53,7 +54,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     }
 
     public CategoryAdapter(Context mContext, ArrayList<Category> mCategoryList) {
-        Context mContext1 = mContext;
+        this.mContext = mContext;
         this.mCategoryList = mCategoryList;
     }
 
