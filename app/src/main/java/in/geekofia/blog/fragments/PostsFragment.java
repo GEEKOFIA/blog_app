@@ -1,12 +1,18 @@
 package in.geekofia.blog.fragments;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,11 +27,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -47,6 +52,7 @@ public class PostsFragment extends Fragment {
         mRecyclerView = v.getRootView().findViewById(R.id.recycler_view_posts);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         FetchLatestPosts();
         return v;
     }
@@ -95,11 +101,8 @@ public class PostsFragment extends Fragment {
 
                                 @Override
                                 public void onShareClick(int position) {
-                                    Intent i = new Intent(Intent.ACTION_SEND);
-                                    i.setType("text/plain");
-                                    i.putExtra(Intent.EXTRA_SUBJECT, "Sharing Post");
-                                    i.putExtra(Intent.EXTRA_TEXT, "Read This Awesome Blog Post of Geekofia" + posts.get(position).getmPostUrl());
-                                    startActivity(Intent.createChooser(i, "Share " + posts.get(position).getmPostTitle()));
+                                    View viewMore = mRecyclerView.getChildAt(position).findViewById(R.id.post_more);
+                                    showPopup(getActivity(), viewMore, posts, position);
                                 }
                             });
                         }
@@ -111,5 +114,47 @@ public class PostsFragment extends Fragment {
 
     public void search(String querryText) {
         mAdapter.getFilter().filter(querryText);
+    }
+
+
+    public void showPopup(final Context context, View view, final ArrayList<Post> posts, final int position) {
+        // Setup Popup Menu
+        MenuBuilder menuBuilder = new MenuBuilder(context);
+        MenuInflater inflater = new MenuInflater(context);
+        inflater.inflate(R.menu.post_menu, menuBuilder);
+        MenuPopupHelper optionsMenu = new MenuPopupHelper(context, menuBuilder, view);
+        optionsMenu.setForceShowIcon(true);
+
+        // setup click listener
+        menuBuilder.setCallback(new MenuBuilder.Callback() {
+            @Override
+            public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_copy_post:
+                        // Gets a handle to the clipboard service.
+                        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Copy Post URL", posts.get(position).getmPostUrl());
+                        clipboard.setPrimaryClip(clip);
+                        return true;
+                    case R.id.action_share_post:
+                        Intent i = new Intent(Intent.ACTION_SEND);
+                        i.setType("text/plain");
+                        i.putExtra(Intent.EXTRA_SUBJECT, "Sharing Post");
+                        i.putExtra(Intent.EXTRA_TEXT, "Read This Awesome Blog Post of Geekofia\n" + posts.get(position).getmPostUrl());
+                        startActivity(Intent.createChooser(i, "Share " + posts.get(position).getmPostTitle()));
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public void onMenuModeChange(MenuBuilder menu) {
+
+            }
+        });
+
+        // show popup
+        optionsMenu.show();
     }
 }

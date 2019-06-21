@@ -51,7 +51,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             mTextViewAuthor = itemView.findViewById(R.id.post_author);
             mTextViewDate = itemView.findViewById(R.id.post_date);
             mTextViewDuration = itemView.findViewById(R.id.post_duration);
-            mTextViewShare = itemView.findViewById(R.id.post_share);
+            mTextViewShare = itemView.findViewById(R.id.post_more);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
