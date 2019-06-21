@@ -27,10 +27,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private String versionName = BuildConfig.VERSION_NAME;
+    private String packageName = BuildConfig.APPLICATION_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TagsFragment()).commit();
                 break;
             case R.id.nav_share:
+                try {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Sharing Geekofia Blog App");
+                    i.putExtra(Intent.EXTRA_TEXT, "Checkout this cool blog app of GEEKOFIA\n" + "https://play.google.com/store/apps/details?id=" + packageName);
+                    startActivity(Intent.createChooser(i, "Share " + "Geekofia Blog App"));
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Unable to share", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.nav_contact:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ContactFragment()).commit();

@@ -21,21 +21,21 @@
     <string name="title_nav_contact">Have A Chat With Me</string>
     <string name="title_nav_author">Become An Author</string>
     <string name="title_nav_github">View Project On GitHub</string>
-
     <string name="title_nav_communication">Contact Me</string>
     <string name="title_nav_support">Support Development</string>
-
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
 
+    <!-- contact -->
     <string name="contact_to">Writing To&#160;</string>
     <string name="send_button">Send Email</string>
-
     <string name="contact_header">We Love To Hear From You</string>
     <string name="hint_subject">Subject</string>
     <string name="helper_subject">Tell us why you writing</string>
     <string name="hint_body">Message</string>
     <string name="helper_body">Describe your issue or suggestion in details</string>
 
-    <string name="search_hint">Searh posts ...</string>
+    <!-- post menu -->
+    <string name="post_menu_copy">copy link</string>
+    <string name="post_menu_share">share post</string>
 </resources>
