@@ -101,7 +101,8 @@ public class PostsFragment extends Fragment {
 
                                 @Override
                                 public void onShareClick(int position) {
-                                    View viewMore = mRecyclerView.getChildAt(position).findViewById(R.id.post_more);
+                                    RecyclerView.ViewHolder viewMoreHolder = mRecyclerView.findViewHolderForLayoutPosition(position);
+                                    View viewMore = viewMoreHolder.itemView.findViewById(R.id.post_more);
                                     showPopup(getActivity(), viewMore, posts, position);
                                 }
                             });
