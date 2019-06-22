@@ -4,6 +4,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -31,11 +33,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PostsFragment extends Fragment {
 
@@ -43,18 +49,54 @@ public class PostsFragment extends Fragment {
     private ArrayList<Post> mPostList, mPostListFull;
     private static final String API_ENDPOINT_POSTS = "https://blog.geekofia.in/api/v2/posts/";
     private RecyclerView mRecyclerView;
+    private TextView mEmptyStateTextView;
+    private ProgressBar mLoadingIndicator;
+    private Button mRetryButton;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_posts, container, false);
         getActivity().setTitle(R.string.title_fragment_Posts);
+
+        initializeViews(v);
+
         mRecyclerView = v.getRootView().findViewById(R.id.recycler_view_posts);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-        FetchLatestPosts();
+
+        loadLatestPosts();
+
         return v;
+    }
+
+
+    private void initializeViews(View view) {
+        mEmptyStateTextView = view.getRootView().findViewById(R.id.empty_view);
+        mRetryButton = view.getRootView().findViewById(R.id.retryButton);
+        mLoadingIndicator = view.getRootView().findViewById(R.id.loading_indicator);
+
+        mRetryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEmptyStateTextView.setText("");
+                mRetryButton.setVisibility(View.GONE);
+                mLoadingIndicator.setVisibility(View.VISIBLE);
+                loadLatestPosts();
+            }
+        });
+    }
+
+    private void loadLatestPosts() {
+        if (isConnected()) {
+            mLoadingIndicator.setVisibility(View.VISIBLE);
+            FetchLatestPosts();
+        } else {
+            mLoadingIndicator.setVisibility(View.GONE);
+            mEmptyStateTextView.setText(R.string.no_internet_connection);
+            mRetryButton.setVisibility(View.VISIBLE);
+        }
     }
 
     private void FetchLatestPosts() {
@@ -83,6 +125,10 @@ public class PostsFragment extends Fragment {
                             mPostList = posts;
                             mPostListFull = new ArrayList<>(mPostList);
                             mAdapter = new PostAdapter(getActivity(), posts);
+
+                            mLoadingIndicator.setVisibility(View.GONE);
+                            mEmptyStateTextView.setText("");
+
                             mRecyclerView.setAdapter(mAdapter);
 
                             mAdapter.setOnItemClickListener(new PostAdapter.OnItemClickListener() {
@@ -157,5 +203,28 @@ public class PostsFragment extends Fragment {
 
         // show popup
         optionsMenu.show();
+    }
+
+    // check internet connectivity
+    private boolean isConnected() {
+        // Check for connectivity status
+        ConnectivityManager connMgr = (ConnectivityManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connMgr.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isConnected()) {
+            mRecyclerView.removeAllViewsInLayout();
+            mEmptyStateTextView.setText(R.string.no_internet_connection);
+            mRetryButton.setVisibility(View.VISIBLE);
+        } else {
+            mRetryButton.setVisibility(View.GONE);
+            mLoadingIndicator.setVisibility(View.GONE);
+            mEmptyStateTextView.setText("");
+            loadLatestPosts();
+        }
     }
 }
