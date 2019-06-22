@@ -14,8 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="24dp"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        android:contentDescription="TODO" />
+        app:srcCompat="@mipmap/ic_launcher_round" />
 
     <TextView
         android:id="@+id/drawer_app_name"
@@ -24,7 +23,8 @@
         android:layout_below="@id/drawer_app_logo"
         android:paddingTop="8dp"
         android:text="@string/title_nav_header"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/drawer_app_version"

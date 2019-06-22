@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GEEKOFIA Blog</string>
+    <string name="app_name">GEEKOFIA BLOG</string>
 
     <!-- Toolbar -->
     <string name="title_menu_search">Search Posts</string>
@@ -38,4 +38,7 @@
     <!-- post menu -->
     <string name="post_menu_copy">copy link</string>
     <string name="post_menu_share">share post</string>
+
+    <string name="button_retry">Retry</string>
+    <string name="no_internet_connection">No Internet</string>
 </resources>
