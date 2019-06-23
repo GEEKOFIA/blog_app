@@ -16,7 +16,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 
 // Fragments
 import in.geekofia.blog.BuildConfig;

@@ -6,4 +6,6 @@
     <color name="colorFragmentBackground">#2b2b2b</color>
     <color name="colorPostBackground">#FFFFFF</color>
     <color name="background">#FAFAFA</color>
+
+    <color name="ic_launcher_background">#FFFFFF</color>
 </resources>
