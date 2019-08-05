@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -108,8 +109,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:drawableStart="@drawable/ic_more_vertical"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp" />
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
 
     </LinearLayout>
 

@@ -71,7 +71,6 @@ public class PostsFragment extends Fragment {
         return v;
     }
 
-
     private void initializeViews(View view) {
         mEmptyStateTextView = view.getRootView().findViewById(R.id.empty_view);
         mRetryButton = view.getRootView().findViewById(R.id.retryButton);
@@ -159,8 +158,8 @@ public class PostsFragment extends Fragment {
         });
     }
 
-    public void search(String querryText) {
-        mAdapter.getFilter().filter(querryText);
+    public void search(String queryText) {
+        mAdapter.getFilter().filter(queryText);
     }
 
 
