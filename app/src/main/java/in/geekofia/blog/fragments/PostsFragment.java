@@ -75,6 +75,7 @@ public class PostsFragment extends Fragment {
 
     private void initializeViews(View view) {
         mShimmerViewContainer = view.getRootView().findViewById(R.id.shimmer_view_container);
+        mShimmerViewContainer.startShimmer();
         mEmptyStateTextView = view.getRootView().findViewById(R.id.empty_view);
         mRetryButton = view.getRootView().findViewById(R.id.retryButton);
 
@@ -90,6 +91,14 @@ public class PostsFragment extends Fragment {
 
     private void loadLatestPosts() {
         if (isConnected()) {
+            if (mShimmerViewContainer.getVisibility() == View.VISIBLE && mShimmerViewContainer.isShimmerStarted()) {
+                // do nothing
+            } else {
+                mShimmerViewContainer.setVisibility(View.VISIBLE);
+                mShimmerViewContainer.startShimmer();
+            }
+            mRetryButton.setVisibility(View.GONE);
+            mEmptyStateTextView.setText("");
             FetchLatestPosts();
         } else {
             mEmptyStateTextView.setText(R.string.no_internet_connection);
@@ -216,13 +225,11 @@ public class PostsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        mRecyclerView.removeAllViewsInLayout();
         if (!isConnected()) {
-            mRecyclerView.removeAllViewsInLayout();
             mEmptyStateTextView.setText(R.string.no_internet_connection);
             mRetryButton.setVisibility(View.VISIBLE);
         } else {
-            mRetryButton.setVisibility(View.GONE);
-            mEmptyStateTextView.setText("");
             loadLatestPosts();
         }
     }
