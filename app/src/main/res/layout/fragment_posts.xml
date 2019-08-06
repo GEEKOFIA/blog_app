@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
         android:layout_width="wrap_content"
@@ -28,6 +27,7 @@
                 <include layout="@layout/placeholder" />
                 <include layout="@layout/placeholder" />
                 <include layout="@layout/placeholder" />
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
