@@ -34,8 +34,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -50,8 +51,9 @@ public class PostsFragment extends Fragment {
     private static final String API_ENDPOINT_POSTS = "https://blog.geekofia.in/api/v2/posts/";
     private RecyclerView mRecyclerView;
     private TextView mEmptyStateTextView;
-    private ProgressBar mLoadingIndicator;
     private Button mRetryButton;
+
+    private ShimmerFrameLayout mShimmerViewContainer;
 
     @Nullable
     @Override
@@ -72,16 +74,15 @@ public class PostsFragment extends Fragment {
     }
 
     private void initializeViews(View view) {
+        mShimmerViewContainer = view.getRootView().findViewById(R.id.shimmer_view_container);
         mEmptyStateTextView = view.getRootView().findViewById(R.id.empty_view);
         mRetryButton = view.getRootView().findViewById(R.id.retryButton);
-        mLoadingIndicator = view.getRootView().findViewById(R.id.loading_indicator);
 
         mRetryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mEmptyStateTextView.setText("");
                 mRetryButton.setVisibility(View.GONE);
-                mLoadingIndicator.setVisibility(View.VISIBLE);
                 loadLatestPosts();
             }
         });
@@ -89,10 +90,8 @@ public class PostsFragment extends Fragment {
 
     private void loadLatestPosts() {
         if (isConnected()) {
-            mLoadingIndicator.setVisibility(View.VISIBLE);
             FetchLatestPosts();
         } else {
-            mLoadingIndicator.setVisibility(View.GONE);
             mEmptyStateTextView.setText(R.string.no_internet_connection);
             mRetryButton.setVisibility(View.VISIBLE);
         }
@@ -125,10 +124,12 @@ public class PostsFragment extends Fragment {
                             mPostListFull = new ArrayList<>(mPostList);
                             mAdapter = new PostAdapter(getActivity(), posts);
 
-                            mLoadingIndicator.setVisibility(View.GONE);
                             mEmptyStateTextView.setText("");
 
                             mRecyclerView.setAdapter(mAdapter);
+
+                            mShimmerViewContainer.setVisibility(View.GONE);
+                            mShimmerViewContainer.stopShimmer();
 
                             mAdapter.setOnItemClickListener(new PostAdapter.OnItemClickListener() {
                                 @Override
@@ -221,7 +222,6 @@ public class PostsFragment extends Fragment {
             mRetryButton.setVisibility(View.VISIBLE);
         } else {
             mRetryButton.setVisibility(View.GONE);
-            mLoadingIndicator.setVisibility(View.GONE);
             mEmptyStateTextView.setText("");
             loadLatestPosts();
         }

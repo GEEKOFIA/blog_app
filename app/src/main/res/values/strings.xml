@@ -41,5 +41,4 @@
 
     <string name="button_retry">Retry</string>
     <string name="no_internet_connection">No Internet</string>
-    <string name="splash_text">Geekofia\nBlog</string>
 </resources>

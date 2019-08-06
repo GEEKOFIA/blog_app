@@ -22,11 +22,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!-- Loading indicator -->
-    <style name="LoaderTheme">
-        <item name="colorAccent">#000</item>
-    </style>
-
     <!-- Card layout for categories -->
     <style name="AppCard" parent="Widget.MaterialComponents.CardView">
         <item name="cardElevation">8dp</item>
