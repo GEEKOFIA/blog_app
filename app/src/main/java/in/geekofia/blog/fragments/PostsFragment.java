@@ -78,7 +78,7 @@ public class PostsFragment extends Fragment {
         mShimmerViewContainer.startShimmer();
         mEmptyStateTextView = view.getRootView().findViewById(R.id.empty_view);
         mRetryButton = view.getRootView().findViewById(R.id.retryButton);
-
+  
         mRetryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,7 +132,7 @@ public class PostsFragment extends Fragment {
                             mPostList = posts;
                             mPostListFull = new ArrayList<>(mPostList);
                             mAdapter = new PostAdapter(getActivity(), posts);
-
+                          
                             mEmptyStateTextView.setText("");
 
                             mRecyclerView.setAdapter(mAdapter);
