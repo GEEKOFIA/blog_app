@@ -40,7 +40,6 @@
 
         </LinearLayout>
 
-
         <ImageView
             android:id="@+id/post_thumbnail"
             android:layout_width="100dp"
@@ -108,8 +107,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:drawableStart="@drawable/ic_more_vertical"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp" />
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
 
     </LinearLayout>
 

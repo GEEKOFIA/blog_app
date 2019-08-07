@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GEEKOFIA BLOG</string>
+    <string name="app_name">Geekofia Blog</string>
 
     <!-- Toolbar -->
     <string name="title_menu_search">Search Posts</string>
