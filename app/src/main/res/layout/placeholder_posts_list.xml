@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="16dp"
     android:paddingLeft="16dp"
+    android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="48dp">
 
@@ -48,10 +48,10 @@
         <View
             android:layout_width="0dp"
             android:layout_height="95dp"
-            android:layout_weight="0.35"
+            android:layout_gravity="center"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_gravity="center"
+            android:layout_weight="0.35"
             android:background="@drawable/shimmer_bg"
             card_view:srcCompat="@mipmap/ic_launcher" />
 
@@ -75,23 +75,23 @@
                 android:background="@drawable/shimmer_bg" />
 
             <RelativeLayout
-                android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
-                android:layout_height="13dp">
+                android:layout_height="13dp"
+                android:layout_marginTop="8dp">
 
                 <View
                     android:id="@+id/placeholder_date"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:background="@drawable/shimmer_bg"/>
+                    android:background="@drawable/shimmer_bg" />
 
                 <View
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/placeholder_date"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/shimmer_bg"/>
+                    android:layout_toEndOf="@id/placeholder_date"
+                    android:background="@drawable/shimmer_bg" />
             </RelativeLayout>
 
         </LinearLayout>

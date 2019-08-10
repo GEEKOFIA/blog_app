@@ -6,16 +6,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.List;
 
 import in.geekofia.blog.R;
 
@@ -24,6 +28,7 @@ public class ReadingActivity extends AppCompatActivity {
     private TextView mPostTitleView, mPostDateView, mPostAuthorView, mPostDurationView, mPostContentView;
     private ImageView mPostFeaturedImageView;
     private String mPostURL, mPostFeaturedImageURL, mPostTitle, mPostDate, mPostAuthor, mPostDuration;
+    private ShimmerFrameLayout mShimmerViewContainer;
 
     private static final String PROTO_ONE = "https://", PROTO_TWO = "http://", DOMAIN_URL = "https://blog.geekofia.in";
 
@@ -44,6 +49,18 @@ public class ReadingActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            post.select("div.post-contents").select("p").attr("style", "color: #000000;");
+//                            Elements links = post.select("div.post-contents a");
+//                            links.attr("style", "color: #00FF00;");
+//                            post.select("pre").attr("color: #00FF00; background: #000000");
+//                            post.select("div.post-contents ul").attr("style", "list-style: none;");
+//                            post.select("div.post-contents li").attr("style", "color: #0000FF;");
+//                            Elements headings = post.select("h4");
+//                            for (Element h4 : headings){
+//                                h4.attr("style", "color: #FF0000");
+//                                Log.i("TAG", h4.attributes().toString());
+//                            }
+//                            Log.i("TAG",post.select("div.post-contents").select("p").attr("style", "color: #000000;").toString());
                             // Post title
                             mPostTitle = post.select("h1").text();
                             // Post metadata
@@ -53,7 +70,7 @@ public class ReadingActivity extends AppCompatActivity {
                             // post author
                             mPostAuthor = postMetadata.select("li.post-author").text();
                             // post duration
-                            mPostDuration = postMetadata.select("li.post-duration").text();
+                            mPostDuration = postMetadata.select("li.post-duration").text().split(" read")[0];
                             // Image
                             Elements postFeaturedImage = post.select("img[alt$=featured-image]");
                             mPostFeaturedImageURL = postFeaturedImage.attr("src");
@@ -67,18 +84,21 @@ public class ReadingActivity extends AppCompatActivity {
                             if (mPostFeaturedImageURL != "") {
                                 if (mPostFeaturedImageURL.toLowerCase().contains(PROTO_ONE) || mPostFeaturedImageURL.toLowerCase().contains(PROTO_TWO)) {
                                     Picasso.get().load(mPostFeaturedImageURL).into(mPostFeaturedImageView);
-                                    Log.e("Featured Image Url", mPostFeaturedImageURL);
                                 } else {
                                     mPostFeaturedImageURL = DOMAIN_URL + mPostFeaturedImageURL;
                                     Picasso.get().load(mPostFeaturedImageURL).into(mPostFeaturedImageView);
-                                    Log.e("Featured Image Url", mPostFeaturedImageURL);
                                 }
                             }
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                mPostContentView.setText(Html.fromHtml(String.valueOf(mPostContents), Html.FROM_HTML_MODE_COMPACT));
+                                mPostContentView.setText(Html.fromHtml(mPostContents.html(), Html.FROM_HTML_MODE_COMPACT));
                             } else {
-                                mPostContentView.setText(Html.fromHtml(String.valueOf(mPostContents)));
+                                mPostContentView.setText(Html.fromHtml(mPostContents.html()));
                             }
+                            mPostDateView.setVisibility(View.VISIBLE);
+                            mPostAuthorView.setVisibility(View.VISIBLE);
+                            mPostDurationView.setVisibility(View.VISIBLE);
+                            mShimmerViewContainer.setVisibility(View.GONE);
+                            mShimmerViewContainer.stopShimmer();
                         }
                     });
                 } catch (IOException e) {
@@ -89,6 +109,8 @@ public class ReadingActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        mShimmerViewContainer = findViewById(R.id.shimmer_post_container);
+        mShimmerViewContainer.startShimmer();
         mPostTitleView = findViewById(R.id.view_post_title);
         mPostDateView = findViewById(R.id.view_post_date);
         mPostAuthorView = findViewById(R.id.view_post_author);
