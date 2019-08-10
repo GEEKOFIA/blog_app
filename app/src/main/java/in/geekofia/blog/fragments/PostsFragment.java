@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import in.geekofia.blog.activities.ReadingActivity;
 import in.geekofia.blog.models.Post;
 import in.geekofia.blog.adapters.PostAdapter;
 import in.geekofia.blog.R;
@@ -143,15 +144,9 @@ public class PostsFragment extends Fragment {
                             mAdapter.setOnItemClickListener(new PostAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(int position) {
-                                    String shareUrl = posts.get(position).getmPostUrl();
-                                    // Convert the String URL into a URI object (to pass into the Intent constructor)
-                                    Uri postUri = Uri.parse(shareUrl);
-
-                                    // Create a new intent to view the earthquake URI
-                                    Intent websiteIntent = new Intent(Intent.ACTION_VIEW, postUri);
-
-                                    // Send the intent to launch a new activity
-                                    startActivity(websiteIntent);
+                                    Intent i = new Intent(getActivity(), ReadingActivity.class);
+                                    i.putExtra("PostURL", posts.get(position).getmPostUrl());
+                                    startActivity(i);
                                 }
 
                                 @Override
