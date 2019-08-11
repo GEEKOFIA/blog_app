@@ -2,6 +2,8 @@ package in.geekofia.blog.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -90,8 +92,13 @@ public class ReadingActivity extends AppCompatActivity {
 
                                 @Override
                                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                    view.loadUrl(url);
-                                    return true;
+                                    if (url != null && (url.startsWith("http://") || url.startsWith("https://"))) {
+                                        view.getContext().startActivity(
+                                                new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
                                 }
 
                                 @Override
