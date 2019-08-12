@@ -61,7 +61,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         appDev.setText("Developer : chankruze");
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PostsFragment()).commit();
+            PostsFragment postsFragment = new PostsFragment();
+            Bundle mPostEnd = new Bundle();
+            mPostEnd.putString("Title", "The Latest");
+            mPostEnd.putString("PostEnd", "/posts");
+            postsFragment.setArguments(mPostEnd);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, postsFragment).commit();
             navigationView.setCheckedItem(R.id.nav_posts);
         }
     }
@@ -71,7 +76,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (menuItem.getItemId()) {
             case R.id.nav_posts:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PostsFragment()).commit();
+                PostsFragment postsFragment = new PostsFragment();
+                Bundle mPostEnd = new Bundle();
+                mPostEnd.putString("Title", "The Latest");
+                mPostEnd.putString("PostEnd", "/posts");
+                postsFragment.setArguments(mPostEnd);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, postsFragment).commit();
                 break;
             case R.id.nav_categories:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CategoriesFragment()).commit();
@@ -81,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Intent i = new Intent(Intent.ACTION_SEND);
                     i.setType("text/plain");
                     i.putExtra(Intent.EXTRA_SUBJECT, "Sharing Geekofia Blog App");
-                    i.putExtra(Intent.EXTRA_TEXT, "Checkout this cool blog app of GEEKOFIA\n" + "https://play.google.com/store/apps/details?id=" + packageName);
+                    i.putExtra(Intent.EXTRA_TEXT, "Checkout this cool blog app of Geekofia\n" + "https://play.google.com/store/apps/details?id=" + packageName);
                     startActivity(Intent.createChooser(i, "Share " + "Geekofia Blog App"));
                 } catch (ActivityNotFoundException e) {
                     e.printStackTrace();

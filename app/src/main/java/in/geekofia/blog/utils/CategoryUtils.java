@@ -10,11 +10,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import in.geekofia.blog.models.Category;
-import in.geekofia.blog.models.Post;
 
 public final class CategoryUtils {
-
-    public static final String LOG_TAG = "Error Log";
 
     private CategoryUtils() {
     }
@@ -28,11 +25,7 @@ public final class CategoryUtils {
 
         // Create an empty ArrayList that we can start adding blog posts to
         ArrayList<Category> categories = new ArrayList<>();
-        ArrayList<Post> categorizedPosts = new ArrayList<>();
 
-        // Try to parse the SAMPLE_JSON_RESPONSE. If there's a problem with the way the JSON
-        // is formatted, a JSONException exception object will be thrown.
-        // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
 
             JSONArray RootResponseArray = new JSONArray(JSON_RESPONSE);
@@ -40,27 +33,12 @@ public final class CategoryUtils {
             for (int i = 0; i < RootResponseArray.length(); i++) {
                 JSONObject CurrentCategory = RootResponseArray.getJSONObject(i);
 
-                // Current Category
+                // Current Category Name
                 String categoryName = CurrentCategory.getString("category");
+                // Current Category Logo
+                String categoryLogo = CurrentCategory.getString("logo");
 
-                // Current Categorized Posts
-                JSONArray PostsArray = CurrentCategory.getJSONArray("posts");
-                for (int j = 0; j < PostsArray.length(); j++) {
-                    JSONObject CurrentPost = PostsArray.getJSONObject(j);
-                    String title = CurrentPost.getString("title");
-                    String desc = CurrentPost.getString("desc");
-                    String date = CurrentPost.getString("date");
-                    String url = CurrentPost.getString("url");
-                    String author = CurrentPost.getString("author");
-                    String duration = CurrentPost.getString("duration");
-                    String thumbnail = CurrentPost.getString("thumbnail");
-
-                    Post newPost = new Post(title, desc, author, date, duration, thumbnail, url);
-                    categorizedPosts.add(newPost);
-                }
-
-                // Generate 2-D Array
-                Category newCategory = new Category(categoryName, categorizedPosts);
+                Category newCategory = new Category(categoryName, categoryLogo);
                 categories.add(newCategory);
             }
 

@@ -14,7 +14,7 @@
 
 
         <ImageView
-            android:id="@+id/grid_item_image"
+            android:id="@+id/grid_category_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -23,8 +23,8 @@
             android:padding="8dp" />
 
         <TextView
-            android:id="@+id/grid_item_name"
-            android:layout_below="@id/grid_item_image"
+            android:id="@+id/grid_category_name"
+            android:layout_below="@id/grid_category_image"
             android:padding="8dp"
             tools:text="Category"
             style="@android:style/TextAppearance.Material.Title"

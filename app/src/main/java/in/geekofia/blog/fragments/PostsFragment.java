@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -49,10 +48,14 @@ public class PostsFragment extends Fragment {
 
     private PostAdapter mAdapter;
     private ArrayList<Post> mPostList, mPostListFull;
-    private static final String API_ENDPOINT_POSTS = "https://blog.geekofia.in/api/v2/posts/";
+    private static String API_ENDPOINT_POSTS;
     private RecyclerView mRecyclerView;
     private TextView mEmptyStateTextView;
     private Button mRetryButton;
+    private static String API_BASE_URL = "https://blog.geekofia.in/api/";
+    private static String  API_VERSION = "v3";
+    private static String POST_END;
+    private static String TITLE;
 
     private ShimmerFrameLayout mShimmerViewContainer;
 
@@ -60,9 +63,17 @@ public class PostsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_posts, container, false);
-        getActivity().setTitle(R.string.title_fragment_Posts);
 
+        Bundle mPostEnd = this.getArguments();
+        if (mPostEnd != null) {
+            POST_END = mPostEnd.getString("PostEnd");
+            TITLE = mPostEnd.getString("Title");
+        }
+
+        getActivity().setTitle(TITLE);
         initializeViews(v);
+
+        API_ENDPOINT_POSTS = API_BASE_URL + API_VERSION + POST_END + "/";
 
         mRecyclerView = v.getRootView().findViewById(R.id.recycler_view_posts);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

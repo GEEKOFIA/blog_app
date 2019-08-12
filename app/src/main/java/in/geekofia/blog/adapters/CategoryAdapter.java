@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import in.geekofia.blog.R;
 import in.geekofia.blog.models.Category;
 
@@ -32,12 +34,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     public static class CategoryViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView mImageView;
-        public TextView mTextViewCategoryName;
+        public ImageView mCategoryLogoView;
+        public TextView mCategoryNameView;
 
         public CategoryViewHolder(@NonNull View itemView, final CategoryAdapter.OnItemClickListener listener) {
             super(itemView);
-            mTextViewCategoryName = itemView.findViewById(R.id.grid_item_name);
+            mCategoryNameView = itemView.findViewById(R.id.grid_category_name);
+            mCategoryLogoView = itemView.findViewById(R.id.grid_category_image);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -66,10 +69,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryAdapter.CategoryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category currentItem = mCategoryList.get(position);
-        String name = currentItem.getmCategoryName();
-        holder.mTextViewCategoryName.setText(name);
+        String categoryName = currentItem.getmCategoryName();
+        String logoUrl = currentItem.getmCategoryLogoUrl();
+
+        holder.mCategoryNameView.setText(categoryName);
+
+        if (logoUrl.toLowerCase().contains(PROTO_ONE) || logoUrl.toLowerCase().contains(PROTO_TWO)){
+            Picasso.get().load(logoUrl).into(holder.mCategoryLogoView);
+        } else{
+            logoUrl = DOMAIN_URL + logoUrl;
+            Picasso.get().load(logoUrl).into(holder.mCategoryLogoView);
+        }
     }
 
     @Override

@@ -1,21 +1,19 @@
 package in.geekofia.blog.models;
 
-import java.util.List;
-
 public class Category {
-    private String mCategoryName;
-    private List<Post> mPostsList;
+    private String mCategoryName, mCategoryLogoUrl;
 
-    public Category(String mCategoryName, List<Post> mPostsList) {
+    public Category(String mCategoryName, String mCategoryLogoUrl) {
         this.mCategoryName = mCategoryName;
-        this.mPostsList = mPostsList;
+        this.mCategoryLogoUrl = mCategoryLogoUrl;
     }
 
     public String getmCategoryName() {
         return mCategoryName;
     }
 
-    public List<Post> getmPostsList() {
-        return mPostsList;
+    public String getmCategoryLogoUrl() {
+        return mCategoryLogoUrl;
     }
+
 }
