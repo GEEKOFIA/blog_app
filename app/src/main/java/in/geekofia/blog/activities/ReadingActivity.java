@@ -1,15 +1,16 @@
 package in.geekofia.blog.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.transition.Slide;
+import androidx.transition.Transition;
+import androidx.transition.TransitionManager;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.webkit.WebResourceRequest;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -20,11 +21,9 @@ import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.List;
 
 import in.geekofia.blog.R;
 
@@ -123,6 +122,17 @@ public class ReadingActivity extends AppCompatActivity {
 
                                     mShimmerViewContainer.setVisibility(View.GONE);
                                     mShimmerViewContainer.stopShimmer();
+
+                                    mPostTitleView.setVisibility(View.VISIBLE);
+                                    mPostDateView.setVisibility(View.VISIBLE);
+                                    mPostAuthorView.setVisibility(View.VISIBLE);
+                                    mPostDurationView.setVisibility(View.VISIBLE);
+
+                                    Transition transition = new Slide(Gravity.BOTTOM);
+                                    transition.setDuration(1000);
+                                    transition.addTarget(R.id.view_post_body);
+                                    TransitionManager.beginDelayedTransition((ViewGroup) mWebView.getParent(), transition);
+                                    mWebView.setVisibility(View.VISIBLE);
                                 }
                             });
                         }
@@ -139,13 +149,24 @@ public class ReadingActivity extends AppCompatActivity {
     private void initViews() {
         mShimmerViewContainer = findViewById(R.id.shimmer_post_container);
         mShimmerViewContainer.startShimmer();
+
         mPostTitleView = findViewById(R.id.view_post_title);
+        mPostTitleView.setVisibility(View.GONE);
+
         mPostDateView = findViewById(R.id.view_post_date);
+        mPostDateView.setVisibility(View.GONE);
+
         mPostAuthorView = findViewById(R.id.view_post_author);
+        mPostAuthorView.setVisibility(View.GONE);
+
         mPostDurationView = findViewById(R.id.view_post_duration);
+        mPostDurationView.setVisibility(View.GONE);
+
         mPostFeaturedImageView = findViewById(R.id.view_post_featured_image);
-//        mPostContentView = findViewById(R.id.view_post_body);
+        mPostFeaturedImageView.setVisibility(View.GONE);
+
         mWebView = findViewById(R.id.view_post_body);
+        mWebView.setVisibility(View.GONE);
     }
 
 }
