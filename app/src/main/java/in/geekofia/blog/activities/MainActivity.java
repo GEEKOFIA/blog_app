@@ -117,14 +117,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     e.printStackTrace();
                 }
                 break;
-            case R.id.nav_donate:
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("https://p-y.tm/Bkbz-ER")));
-                } catch (ActivityNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;
             case R.id.nav_rate:
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW,

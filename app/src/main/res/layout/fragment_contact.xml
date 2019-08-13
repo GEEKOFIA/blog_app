@@ -11,19 +11,19 @@
         android:padding="16dp">
 
         <TextView
+            style="@style/TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="16dp"
             android:text="@string/contact_header"
             android:textAlignment="center"
-            style="@style/TextAppearance.AppCompat.Large"
-            android:padding="16dp"
             android:textStyle="bold" />
 
         <RelativeLayout
-            android:layout_marginTop="16dp"
             android:id="@+id/contact_chooser"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
 
             <TextView
                 android:id="@+id/contact_to"
@@ -43,14 +43,14 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:hint="@string/hint_subject"
             app:counterEnabled="true"
             app:counterMaxLength="50"
             app:endIconMode="clear_text"
             app:helperText="@string/helper_subject"
             app:helperTextEnabled="true"
-            app:hintEnabled="true"
-            android:layout_marginTop="16dp">
+            app:hintEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/contact_subject"
@@ -63,12 +63,12 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:hint="@string/hint_body"
             app:counterEnabled="true"
             app:endIconMode="clear_text"
             app:helperText="@string/helper_body"
             app:helperTextEnabled="true"
-            android:layout_marginTop="24dp"
             app:hintEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
