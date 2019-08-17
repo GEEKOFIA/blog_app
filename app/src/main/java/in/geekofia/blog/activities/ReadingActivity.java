@@ -127,6 +127,7 @@ public class ReadingActivity extends AppCompatActivity {
                                     mPostDateView.setVisibility(View.VISIBLE);
                                     mPostAuthorView.setVisibility(View.VISIBLE);
                                     mPostDurationView.setVisibility(View.VISIBLE);
+                                    mPostFeaturedImageView.setVisibility(View.VISIBLE);
 
                                     Transition transition = new Slide(Gravity.BOTTOM);
                                     transition.setDuration(1000);
