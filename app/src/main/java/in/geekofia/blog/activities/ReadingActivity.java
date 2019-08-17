@@ -74,16 +74,6 @@ public class ReadingActivity extends AppCompatActivity {
                             mPostDateView.setText(mPostDate);
                             mPostAuthorView.setText(mPostAuthor);
                             mPostDurationView.setText(mPostDuration);
-                            if (mPostFeaturedImageURL != "") {
-                                if (mPostFeaturedImageURL.toLowerCase().contains(PROTO_ONE) || mPostFeaturedImageURL.toLowerCase().contains(PROTO_TWO)) {
-                                    Picasso.get().load(mPostFeaturedImageURL).into(mPostFeaturedImageView);
-                                } else {
-                                    mPostFeaturedImageURL = DOMAIN_URL + mPostFeaturedImageURL;
-                                    Picasso.get().load(mPostFeaturedImageURL).into(mPostFeaturedImageView);
-                                }
-                            } else {
-                                mPostFeaturedImageView.setVisibility(View.GONE);
-                            }
 
                             mWebView.loadUrl(mPostURL);
                             mWebView.getSettings().setJavaScriptEnabled(true);
@@ -127,7 +117,16 @@ public class ReadingActivity extends AppCompatActivity {
                                     mPostDateView.setVisibility(View.VISIBLE);
                                     mPostAuthorView.setVisibility(View.VISIBLE);
                                     mPostDurationView.setVisibility(View.VISIBLE);
-                                    mPostFeaturedImageView.setVisibility(View.VISIBLE);
+
+                                    if (mPostFeaturedImageURL != "") {
+                                        if (mPostFeaturedImageURL.toLowerCase().contains(PROTO_ONE) || mPostFeaturedImageURL.toLowerCase().contains(PROTO_TWO)) {
+                                            Picasso.get().load(mPostFeaturedImageURL).into(mPostFeaturedImageView);
+                                        } else {
+                                            mPostFeaturedImageURL = DOMAIN_URL + mPostFeaturedImageURL;
+                                            Picasso.get().load(mPostFeaturedImageURL).into(mPostFeaturedImageView);
+                                        }
+                                        mPostFeaturedImageView.setVisibility(View.VISIBLE);
+                                    }
 
                                     Transition transition = new Slide(Gravity.BOTTOM);
                                     transition.setDuration(1000);
