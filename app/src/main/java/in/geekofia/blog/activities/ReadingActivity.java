@@ -11,9 +11,13 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -24,28 +28,89 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import in.geekofia.blog.R;
 
 public class ReadingActivity extends AppCompatActivity {
 
+    private ScrollView mScrollView;
     private TextView mPostTitleView, mPostDateView, mPostAuthorView, mPostDurationView, mPostContentView;
     private ImageView mPostFeaturedImageView;
     private String mPostURL, mPostFeaturedImageURL, mPostTitle, mPostDate, mPostAuthor, mPostDuration;
     private ShimmerFrameLayout mShimmerViewContainer;
     private WebView mWebView;
+    private ViewTreeObserver viewTreeObserver;
+    private ProgressBar mProgressBar;
 
     private static final String PROTO_ONE = "https://", PROTO_TWO = "http://", DOMAIN_URL = "https://blog.geekofia.in";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // For full screen
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_reading);
 
+        // initialize views
         initViews();
         Bundle b = getIntent().getExtras();
         mPostURL = b.getString("PostURL");
 
+        // Load post
+        loadPost();
+
+        viewTreeObserver = mScrollView.getViewTreeObserver();
+
+        if (viewTreeObserver.isAlive()){
+            viewTreeObserver.addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+                @Override
+                public void onScrollChanged() {
+                    int scrollY = mScrollView.getScrollY();
+                    int scrollViewHeight = mScrollView.getHeight();
+                    int childViewHeight = mScrollView.getChildAt(0).getHeight();
+                    int maxScrollY = childViewHeight - scrollViewHeight;
+
+                    double currentProgress = Double.parseDouble((new DecimalFormat("##.##").format(100.0 * scrollY / maxScrollY)));
+
+                    // update progress bar
+                    mProgressBar.setProgress((int) currentProgress);
+                }
+            });
+        }
+    }
+
+    private void initViews() {
+        mScrollView = findViewById(R.id.scrollView);
+
+        mProgressBar = findViewById(R.id.progress_horizontal);
+
+        mShimmerViewContainer = findViewById(R.id.shimmer_post_container);
+        mShimmerViewContainer.startShimmer();
+
+        mPostTitleView = findViewById(R.id.view_post_title);
+        mPostTitleView.setVisibility(View.GONE);
+
+        mPostDateView = findViewById(R.id.view_post_date);
+        mPostDateView.setVisibility(View.GONE);
+
+        mPostAuthorView = findViewById(R.id.view_post_author);
+        mPostAuthorView.setVisibility(View.GONE);
+
+        mPostDurationView = findViewById(R.id.view_post_duration);
+        mPostDurationView.setVisibility(View.GONE);
+
+        mPostFeaturedImageView = findViewById(R.id.view_post_featured_image);
+        mPostFeaturedImageView.setVisibility(View.GONE);
+
+        mWebView = findViewById(R.id.view_post_body);
+        mWebView.setVisibility(View.GONE);
+    }
+
+    private void loadPost(){
         new Thread(new Runnable() {
             public void run() {
                 try {
@@ -145,28 +210,4 @@ public class ReadingActivity extends AppCompatActivity {
             }
         }).start();
     }
-
-    private void initViews() {
-        mShimmerViewContainer = findViewById(R.id.shimmer_post_container);
-        mShimmerViewContainer.startShimmer();
-
-        mPostTitleView = findViewById(R.id.view_post_title);
-        mPostTitleView.setVisibility(View.GONE);
-
-        mPostDateView = findViewById(R.id.view_post_date);
-        mPostDateView.setVisibility(View.GONE);
-
-        mPostAuthorView = findViewById(R.id.view_post_author);
-        mPostAuthorView.setVisibility(View.GONE);
-
-        mPostDurationView = findViewById(R.id.view_post_duration);
-        mPostDurationView.setVisibility(View.GONE);
-
-        mPostFeaturedImageView = findViewById(R.id.view_post_featured_image);
-        mPostFeaturedImageView.setVisibility(View.GONE);
-
-        mWebView = findViewById(R.id.view_post_body);
-        mWebView.setVisibility(View.GONE);
-    }
-
 }

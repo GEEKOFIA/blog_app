@@ -41,4 +41,6 @@
 
     <string name="button_retry">Retry</string>
     <string name="no_internet_connection">No Internet</string>
+
+    <string name="imageview_desc">Featured post image</string>
 </resources>
