@@ -3,6 +3,7 @@ package in.geekofia.blog.activities;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.navigation.NavigationView;
+import com.onesignal.OneSignal;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
@@ -69,6 +70,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, postsFragment).commit();
             navigationView.setCheckedItem(R.id.nav_posts);
         }
+
+        // OneSignal Initialization for Push Notifications
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
     }
 
     @Override
