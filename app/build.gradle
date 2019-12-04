@@ -7,8 +7,8 @@ android {
         applicationId "in.geekofia.blog"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 44
-        versionName "1.2.1"
+        versionCode 45
+        versionName "1.2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 onesignal_app_id: '934a0007-02bc-4385-bd4f-35b491fe6687',

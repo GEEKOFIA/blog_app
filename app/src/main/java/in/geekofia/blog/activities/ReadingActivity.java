@@ -158,9 +158,6 @@ public class ReadingActivity extends AppCompatActivity {
                                 @Override
                                 public void onPageFinished(WebView view, String url) {
                                     mWebView.loadUrl("javascript:(function() { " +
-                                            "let welcome = document.getElementById('welcome'); welcome.classList.remove('d-block');" +
-                                            "welcome.style.display='none';" +
-
                                             "document.getElementsByClassName('navbar')[0].style.display='none'; " +
                                             "document.getElementsByTagName('h1')[0].style.display='none'; " +
 
@@ -172,8 +169,11 @@ public class ReadingActivity extends AppCompatActivity {
 
                                             "document.getElementsByClassName('related-posts')[0].style.display='none';" +
 
-                                            "document.getElementsByTagName('img')[0].style.display='none';" +
-                                            "})()");
+                                            "let images = document.getElementsByTagName('img');" +
+                                            "for(i = 0; i < images.length; i++){" +
+                                               "if(images[i].alt == 'featured-image'){" +
+                                                  "images[i].style.display='none';" +
+                                            "}}})()");
 
                                     mShimmerViewContainer.setVisibility(View.GONE);
                                     mShimmerViewContainer.stopShimmer();
