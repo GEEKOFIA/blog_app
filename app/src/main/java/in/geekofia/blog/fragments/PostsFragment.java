@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.view.menu.MenuPopupHelper;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +30,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,7 +55,7 @@ public class PostsFragment extends Fragment {
     private TextView mEmptyStateTextView;
     private Button mRetryButton;
     private static String API_BASE_URL = "https://blog.geekofia.in/api/";
-    private static String  API_VERSION = "v3";
+    private static String API_VERSION = "v3";
     private static String POST_END;
     private static String TITLE;
 
@@ -71,6 +73,9 @@ public class PostsFragment extends Fragment {
         }
 
         getActivity().setTitle(TITLE);
+
+        setHasOptionsMenu(true);
+
         initializeViews(v);
 
         API_ENDPOINT_POSTS = API_BASE_URL + API_VERSION + POST_END + "/";
@@ -90,7 +95,7 @@ public class PostsFragment extends Fragment {
         mShimmerViewContainer.startShimmer();
         mEmptyStateTextView = view.getRootView().findViewById(R.id.empty_view);
         mRetryButton = view.getRootView().findViewById(R.id.retryButton);
-  
+
         mRetryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,7 +149,7 @@ public class PostsFragment extends Fragment {
                             mPostList = posts;
                             mPostListFull = new ArrayList<>(mPostList);
                             mAdapter = new PostAdapter(getActivity(), posts);
-                          
+
                             mEmptyStateTextView.setText("");
 
                             mRecyclerView.setAdapter(mAdapter);
@@ -238,5 +243,37 @@ public class PostsFragment extends Fragment {
         } else {
             loadLatestPosts();
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                PostsFragment postsFragment = (PostsFragment) Objects.requireNonNull(getActivity()).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                if (postsFragment != null) {
+                    postsFragment.search(newText);
+                }
+
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }

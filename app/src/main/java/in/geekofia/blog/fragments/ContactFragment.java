@@ -31,6 +31,7 @@ public class ContactFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
         getActivity().setTitle(R.string.title_fragment_contact);
+        setHasOptionsMenu(true);
 
         // Contact Spinner
         mContactSpinner = view.findViewById(R.id.contact_spinner);
