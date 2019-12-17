@@ -23,15 +23,14 @@ import in.geekofia.blog.R;
 public class ContactFragment extends Fragment {
 
     private TextInputEditText mContactSubject, mContactBody;
-    private Button mSendMailButton;
-    Spinner mContactSpinner;
+    private Spinner mContactSpinner;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
         getActivity().setTitle(R.string.title_fragment_contact);
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
 
         // Contact Spinner
         mContactSpinner = view.findViewById(R.id.contact_spinner);
@@ -43,7 +42,7 @@ public class ContactFragment extends Fragment {
         // Views Initialization
         mContactSubject = view.findViewById(R.id.contact_subject);
         mContactBody = view.findViewById(R.id.contact_body);
-        mSendMailButton = view.findViewById(R.id.contact_send_button);
+        Button mSendMailButton = view.findViewById(R.id.contact_send_button);
 
         mSendMailButton.setOnClickListener(new View.OnClickListener() {
             @Override

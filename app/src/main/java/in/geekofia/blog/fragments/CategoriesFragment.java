@@ -45,7 +45,7 @@ public class CategoriesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_categories, container, false);
         getActivity().setTitle(R.string.title_fragment_categories);
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
 
         initShimmer(v);
 
