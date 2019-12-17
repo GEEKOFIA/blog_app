@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import in.geekofia.blog.activities.ReadingActivity;
 import in.geekofia.blog.models.Post;
@@ -104,13 +105,22 @@ public class PostsFragment extends Fragment {
                 loadLatestPosts();
             }
         });
+
+        final SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.pull_to_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPostList.clear();
+                mAdapter.notifyDataSetChanged();
+                loadLatestPosts();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     private void loadLatestPosts() {
         if (isConnected()) {
-            if (mShimmerViewContainer.getVisibility() == View.VISIBLE && mShimmerViewContainer.isShimmerStarted()) {
-                // do nothing
-            } else {
+            if (!(mShimmerViewContainer.getVisibility() == View.VISIBLE) && mShimmerViewContainer.isShimmerStarted()) {
                 mShimmerViewContainer.setVisibility(View.VISIBLE);
                 mShimmerViewContainer.startShimmer();
             }
@@ -179,12 +189,12 @@ public class PostsFragment extends Fragment {
         });
     }
 
-    public void search(String queryText) {
+    private void search(String queryText) {
         mAdapter.getFilter().filter(queryText);
     }
 
 
-    public void showPopup(final Context context, View view, final ArrayList<Post> posts, final int position) {
+    private void showPopup(final Context context, View view, final ArrayList<Post> posts, final int position) {
         // Setup Popup Menu
         MenuBuilder menuBuilder = new MenuBuilder(context);
         MenuInflater inflater = new MenuInflater(context);
